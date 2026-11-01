@@ -96,6 +96,20 @@ Backups hold names, counts, covers and your calls. They don't hold photos or fol
 
 Everything runs locally in your browser. Photos are never uploaded. The only network request is loading the face detection model (MediaPipe) when needed.
 
+## How it compares
+
+Other culling tools exist. Here's where Cull fits.
+
+| Tool | How you run it | Cost |
+| --- | --- | --- |
+| **Cull** | Open a web page or one HTML file. No install. | Free, not for resale |
+| [Photo Curator](https://github.com/kotyzap/Photo-Curator) | Python app with a local server, tested on macOS | Free, MIT |
+| [LrGeniusAI](https://github.com/LrGenius/LrGeniusAI/wiki/Help-Cull-Photos) | Lightroom Classic plugin plus a backend server | Free |
+| [Cullify](https://github.com/saucethav/Cullify-) | Python app (Streamlit or command line) | Free |
+| Aftershoot, Imagen | Desktop apps | Paid subscription |
+
+What Cull is built for: no setup, works on Windows and Mac in Chrome or Edge, burst stacks you flip through with the arrow keys, a Library that remembers every shoot, and star ratings and color labels written straight to XMP for Lightroom.
+
 ## Built with
 
 A single HTML file, plain JavaScript, the File System Access API and [MediaPipe Face Landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker).
