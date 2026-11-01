@@ -118,6 +118,10 @@ What Cull is built for: no setup, works on Windows and Mac in Chrome or Edge, bu
 
 Found a bug or want a feature? [Open an issue](https://github.com/nikkerdoo/cull/issues/new/choose). Pick Bug report or Feature request and fill in the short form. Screenshots help.
 
+## Buy me a coffee
+
+Cull is free. If it saves you time, you can [buy me a coffee](https://buymeacoffee.com/nikkerdoo). Totally optional.
+
 ## Built with
 
 A single HTML file, plain JavaScript, the File System Access API and [MediaPipe Face Landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker).
