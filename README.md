@@ -102,6 +102,8 @@ A single HTML file, plain JavaScript, the File System Access API and [MediaPipe 
 
 ## License
 
-MIT. Use it, change it, share it. See [LICENSE](LICENSE).
+Free to use, change and share. Not for resale.
+
+[PolyForm Noncommercial 1.0.0](https://polyformproject.org/licenses/noncommercial/1.0.0), plus a note: photographers can use Cull in their own work, including paid client work. You can't sell it or put it inside a paid product. See [LICENSE](LICENSE).
 
 Made by [Nicole Marie Portraits](https://nicolemarieportraits.com).
