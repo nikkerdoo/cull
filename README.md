@@ -110,6 +110,10 @@ Other culling tools exist. Here's where Cull fits.
 
 What Cull is built for: no setup, works on Windows and Mac in Chrome or Edge, burst stacks you flip through with the arrow keys, a Library that remembers every shoot, and star ratings and color labels written straight to XMP for Lightroom.
 
+## Feedback and ideas
+
+Found a bug or want a feature? [Open an issue](https://github.com/nikkerdoo/cull/issues/new/choose). Pick Bug report or Feature request and fill in the short form. Screenshots help.
+
 ## Built with
 
 A single HTML file, plain JavaScript, the File System Access API and [MediaPipe Face Landmarker](https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker).
