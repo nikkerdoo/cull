@@ -4,6 +4,10 @@ A free photo culling tool that runs in your browser. Drop in a RAW shoot, and Cu
 
 No install. No account. Your photos never leave your computer.
 
+![Cull's grid view, with Keep, Maybe and Reject calls and burst labels](screenshot-grid.jpg)
+
+![Cull's zoomed view for picking the best frame](screenshot-zoom.jpg)
+
 ## What it does
 
 - Flags soft focus, closed eyes and near-duplicate bursts
