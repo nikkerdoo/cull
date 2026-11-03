@@ -1,3 +1,5 @@
+![Cull: free photo culling in your browser](cull-banner.png)
+
 # Cull
 
 A free photo culling tool that runs in your browser. Drop in a RAW shoot, and Cull sorts it into Keep, Maybe and Reject before you ever open Lightroom.
