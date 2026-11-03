@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cull: Detailed instructions</title>
+<style>
+:root{
+  --bg:#141416;--panel:#1c1c20;--line:#2c2c32;--txt:#ececf0;--mute:#8d8d98;--ink:#141416;
+  --keep:#2fa37a;--maybe:#d9a441;--reject:#c4453f;--hl:#3b82d6;--soft:#e0742f;--eyes:#8a5fd6;--pick:#d9659d;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--hl)}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--line);padding:18px 0}
+header.top .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:20px;letter-spacing:.01em}
+.top .sp{flex:1}
+.btn{display:inline-block;text-decoration:none;color:var(--txt);background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:7px 13px;font-size:14px}
+.btn:hover{border-color:#44444d}
+.btn.primary{background:#ececf0;color:var(--ink);border-color:#ececf0;font-weight:600}
+.hero{padding:54px 0 26px}
+.hero h1{font-size:clamp(34px,6vw,54px);line-height:1.05;margin:0 0 14px;letter-spacing:-.02em}
+.hero p{color:var(--mute);font-size:18px;max-width:620px;margin:0}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.pill{font-weight:700;font-size:14px;padding:5px 15px;border-radius:99px;color:var(--ink)}
+.pill.k{background:var(--keep)}.pill.m{background:var(--maybe)}.pill.x{background:var(--reject);color:#f7eeea}.pill.h{background:var(--hl);color:#fff}
+nav.toc{margin:26px 0 8px;padding:16px 18px;background:var(--panel);border:1px solid var(--line);border-radius:12px}
+nav.toc b{display:block;font-size:13px;color:var(--mute);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+nav.toc ol{margin:0;padding-left:22px;columns:2;column-gap:30px}
+nav.toc li{margin:3px 0}
+nav.toc a{color:var(--txt);text-decoration:none}
+nav.toc a:hover{text-decoration:underline}
+section.step{padding:46px 0 10px;border-top:1px solid var(--line);margin-top:46px}
+.num{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:#ececf0;color:var(--ink);font-weight:800;font-size:16px;margin-right:10px;vertical-align:middle}
+h2{font-size:28px;line-height:1.2;margin:0 0 10px;letter-spacing:-.01em}
+h3{font-size:17px;margin:26px 0 8px}
+p{margin:0 0 12px}
+.lede{color:var(--mute);font-size:17px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin:4px 0}
+kbd{background:#2a2a30;border:1px solid var(--line);border-radius:5px;padding:1px 7px;font:13px ui-monospace,SFMono-Regular,Menlo,monospace;white-space:nowrap}
+code{background:#2a2a30;border-radius:5px;padding:1px 6px;font:13px ui-monospace,SFMono-Regular,Menlo,monospace}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:baseline}
+.note{border-left:3px solid var(--maybe);background:var(--panel);border-radius:0 10px 10px 0;padding:11px 15px;margin:16px 0;color:#d6d6dc}
+.note b{color:var(--txt)}
+.important{margin:26px 0 8px;padding:18px 20px;background:var(--panel);border:2px solid var(--reject);border-radius:12px}
+.important .tag{display:inline-block;background:var(--reject);color:#f7eeea;font-weight:800;font-size:12px;letter-spacing:.1em;text-transform:uppercase;padding:3px 11px;border-radius:99px;margin-bottom:10px}
+.important h2{font-size:21px;margin:0 0 8px}
+.important p{color:#d6d6dc}
+.important ul{margin:8px 0 12px}
+.important li{margin:7px 0;color:#d6d6dc}
+.important li b{color:var(--txt)}
+.important p:last-child{margin-bottom:0}
+
+/* screenshot figures */
+figure.shot{margin:22px 0 8px;padding:0}
+.frame{position:relative;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#0c0c0e;aspect-ratio:16/10}
+.frame img{width:100%;height:100%;object-fit:contain;display:block}
+.frame .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--mute);font-size:14px;text-align:center;padding:20px;
+  background:repeating-linear-gradient(45deg,#101012,#101012 14px,#141416 14px,#141416 28px)}
+.frame .ph b{color:var(--txt);font-size:15px}
+.frame .ph code{font-size:12px}
+.frame.has .ph{display:none}
+.frame.has{aspect-ratio:auto}
+.frame.has img{height:auto}
+.frame.strip.has{padding-top:34px}
+.frame.strip.has .pin:not(.inpic){top:17px!important}
+figcaption.plain p{color:#d6d6dc;margin:0}
+.pin{display:none;position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;background:var(--pick);color:var(--ink);font-weight:800;font-size:13px;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(20,20,22,.85),0 2px 8px rgba(0,0,0,.5)}
+.frame.has .pin{display:flex}
+figcaption{margin-top:12px}
+figcaption ol{list-style:none;padding:0;margin:0}
+figcaption li{display:flex;gap:10px;align-items:flex-start;margin:7px 0;color:#d6d6dc}
+figcaption li i{flex:none;width:22px;height:22px;border-radius:50%;background:var(--pick);color:var(--ink);font-style:normal;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;margin-top:2px}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 18px;font-size:15px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--mute);font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.chip{display:inline-block;font-size:12px;padding:1px 9px;border-radius:99px;font-weight:600;color:var(--ink);white-space:nowrap}
+.chip.soft{background:var(--soft)}.chip.eyes{background:var(--eyes);color:#fff}.chip.pick{background:var(--pick)}
+footer{border-top:1px solid var(--line);margin-top:60px;padding:30px 0 60px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center}
+footer a{color:var(--txt)}
+@media (max-width:620px){nav.toc ol{columns:1}.hero{padding-top:36px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <span class="logo">Cull</span>
+    <span class="sp"></span>
+    <a class="btn" href="https://github.com/nikkerdoo/cull">README</a>
+    <a class="btn primary" href="https://nikkerdoo.github.io/cull/">Open Cull</a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <h1>Detailed instructions</h1>
+    <p>Here's the whole tour, one screen at a time. Read it start to finish, or skip to whatever you're stuck on.</p>
+    <div class="pills">
+      <span class="pill k">Keep</span><span class="pill m">Maybe</span><span class="pill x">Reject</span><span class="pill h">Highlight</span>
+    </div>
+  </div>
+
+  <div class="important">
+    <span class="tag">Important</span>
+    <h2>Back up your work, or you can lose it</h2>
+    <p>Cull has no server. Your Library, your analysis and your Keep/Maybe/Reject calls are saved in your browser, on that one computer. If you clear your cache, cookies or browsing history, they're gone. Same story if you switch browsers, profiles or computers: Cull starts out empty.</p>
+    <p>Two things protect you:</p>
+    <ul>
+      <li><b>Write XMP ratings</b> when you finish a shoot. This saves your ratings and labels next to your photos, so Lightroom has them even if Cull forgets everything.</li>
+      <li><b>Export backup</b> from the Library every so often. This saves your list of shoots and your calls inside Cull to a <code>.json</code> file. Keep it somewhere safe.</li>
+    </ul>
+    <p>Moving to a new computer? Export a backup on the old one, then <b>Import backup</b> on the new one. Details in <a href="#library">step 7</a>.</p>
+  </div>
+
+  <nav class="toc">
+    <b>Jump to</b>
+    <ol>
+      <li><a href="#add">Add a folder</a></li>
+      <li><a href="#sliders">Set the sliders</a></li>
+      <li><a href="#grid">Review the grid</a></li>
+      <li><a href="#viewer">Full-size viewer and shortcuts</a></li>
+      <li><a href="#xmp">Write XMP ratings</a></li>
+      <li><a href="#lightroom">Bring it into Lightroom</a></li>
+      <li><a href="#library">Library and backups</a></li>
+    </ol>
+  </nav>
+
+  <div class="note"><b>Before you start.</b> Cull runs in Chrome or Edge on a computer. Your photos never leave your machine.</div>
+
+  <!-- 1 -->
+  <section class="step" id="add">
+    <h2><span class="num">1</span>Add a folder</h2>
+    <p class="lede">Point Cull at a shoot and let it do its thing.</p>
+
+    <figure class="shot">
+      <div class="frame" data-shot="01-add-folder">
+        <img src="shots/01-add-folder.png" alt="The Add a folder screen with the drop zone and Choose folder button" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: Add a folder screen</b><code>shots/01-add-folder.png</code></div>
+        <span class="pin" style="left:19.6%;top:1.8%">1</span>
+        <span class="pin" style="left:50.2%;top:25.3%">2</span>
+        <span class="pin" style="left:45.7%;top:46.4%">3</span>
+        <span class="pin" style="left:45.0%;top:3.0%">5</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span>Click <b>Add folder</b> in the top bar to get to this screen.</span></li>
+        <li><i>2</i><span>Drag your shoot folder onto the page...</span></li>
+        <li><i>3</i><span>...or click <b>Choose folder instead</b> and pick it yourself.</span></li>
+        <li><i>4</i><span>Your browser will ask for access to the folder. Say yes. Cull needs it to read your photos now and write the XMP files later.</span></li>
+        <li><i>5</i><span>Cull starts analyzing. The bar at the top fills up and the status next to it tells you how many photos are done.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <p>Cull reads RAW and JPEG files. If a photo has both, Cull counts it once and uses the RAW.</p>
+    <div class="note"><b>Heads up:</b> eye detection downloads a small face model the first time it needs one, so you'll need to be online. If it can't load, the blur and burst checks still run.</div>
+  </section>
+
+  <!-- 2 -->
+  <section class="step" id="sliders">
+    <h2><span class="num">2</span>Set the sliders</h2>
+    <p class="lede">Tell Cull how picky to be. Everything updates as you slide, so play around and watch the grid change.</p>
+
+    <figure class="shot">
+      <div class="frame strip" data-shot="02-sliders">
+        <img src="shots/02-sliders.png" alt="The Cull header with all the sliders" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: top bar with the sliders</b><code>shots/02-sliders.png</code></div>
+        <span class="pin" style="left:11.5%">1</span>
+        <span class="pin" style="left:31.2%">2</span>
+        <span class="pin" style="left:48.5%">3</span>
+        <span class="pin" style="left:64.9%">4</span>
+        <span class="pin" style="left:82.4%">5</span>
+        <span class="pin inpic" style="left:96.5%;top:85%">6</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span><b>Soft focus.</b> Move it right and Cull gets pickier, flagging more photos as soft. Move it left and more photos get a pass. If a photo has faces, Cull checks the face, not the background.</span></li>
+        <li><i>2</i><span><b>Eyes closed.</b> Move it left to catch more blinks. Move it right and Cull only flags eyes that are clearly shut.</span></li>
+        <li><i>3</i><span><b>Bursts.</b> Move it right and frames can look less alike and still land in the same stack, so you get bigger stacks. Move it left and only near-identical frames stack together.</span></li>
+        <li><i>4</i><span><b>Keep top.</b> All the way right (100%), every photo that passes the checks stays a Keep. Move it left and Cull bumps the weaker ones down to Maybe.</span></li>
+        <li><i>5</i><span><b>Highlights.</b> Cull picks out your best of the best, the sharp, well-exposed shots with good expressions that are most likely worth sharing, and marks them blue. Move it right for more, left for fewer. All the way left turns it off, and you choose your own.</span></li>
+        <li><i>6</i><span><b>Tabs.</b> Filter the grid by All, Keep, Maybe, Reject, Highlights or Bursts.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <p>The checkbox next to Soft focus, Eyes closed and Bursts turns that check off entirely. <b>Size</b> just makes the tiles bigger or smaller.</p>
+  </section>
+
+  <!-- 3 -->
+  <section class="step" id="grid">
+    <h2><span class="num">3</span>Review the grid</h2>
+    <p class="lede">Cull makes a first pass. You get the final say.</p>
+
+    <figure class="shot">
+      <div class="frame" data-shot="03-grid">
+        <img src="shots/03-grid.png" alt="The photo grid with tile borders, pills and Keep Maybe Reject buttons" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: grid with a burst, a Keep and a Reject visible</b><code>shots/03-grid.png</code></div>
+        <span class="pin" style="left:16.5%;top:22.5%">1</span>
+        <span class="pin" style="left:90.8%;top:46.5%">2</span>
+        <span class="pin" style="left:66.9%;top:82.5%">3</span>
+        <span class="pin" style="left:7.5%;top:57.2%">4</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span>Every photo gets a colored border showing Cull's call: green for Keep, gold for Maybe, red for Reject, blue for Highlight. Click the photo to open it full size.</span></li>
+        <li><i>2</i><span>The little pills under each photo tell you why Cull made that call. You'll see things like soft focus, eyes closed, best of burst or burst dupe.</span></li>
+        <li><i>3</i><span>Disagree with Cull? Click <b>Keep</b>, <b>Maybe</b> or <b>Reject</b> to change it. The tile then says "Your call" so you can tell what you changed.</span></li>
+        <li><i>4</i><span>Photos in a burst get a badge like "Burst 2/3," so you know which frame of the stack you're looking at.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <h3>What the colors mean</h3>
+    <table>
+      <tr><th>Color</th><th>Meaning</th></tr>
+      <tr><td><span class="dot" style="background:var(--keep)"></span>Green</td><td>Keep</td></tr>
+      <tr><td><span class="dot" style="background:var(--maybe)"></span>Gold</td><td>Maybe</td></tr>
+      <tr><td><span class="dot" style="background:var(--reject)"></span>Red</td><td>Reject</td></tr>
+      <tr><td><span class="dot" style="background:var(--hl)"></span>Blue</td><td>Highlight</td></tr>
+      <tr><td><span class="chip soft">Orange pill</span></td><td>Soft focus</td></tr>
+      <tr><td><span class="chip eyes">Purple pill</span></td><td>Eyes closed</td></tr>
+      <tr><td><span class="chip pick">Pink pill</span></td><td>Best of burst / Burst dupe</td></tr>
+    </table>
+    <p>Your calls save as you go, so you can close the tab and come back to the same shoot.</p>
+  </section>
+
+  <!-- 4 -->
+  <section class="step" id="viewer">
+    <h2><span class="num">4</span>Full-size viewer and shortcuts</h2>
+    <p class="lede">Click any photo to open it. This is where most of the culling happens.</p>
+
+    <figure class="shot">
+      <div class="frame" data-shot="04-viewer">
+        <img src="shots/04-viewer.png" alt="The full-size viewer with a burst stack strip along the bottom" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: viewer open on a burst, strip visible</b><code>shots/04-viewer.png</code></div>
+        <span class="pin" style="left:28.6%;top:3.7%">1</span>
+        <span class="pin" style="left:86%;top:8.1%">2</span>
+        <span class="pin" style="left:54.5%;top:43.3%">3</span>
+        <span class="pin" style="left:57%;top:91.2%">4</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span>Across the top you'll see the file name, where you are in the shoot, and the reasons behind Cull's call.</span></li>
+        <li><i>2</i><span>The <b>Highlight, Keep, Maybe</b> and <b>Reject</b> buttons change the call. They do the same thing as the keyboard shortcuts below.</span></li>
+        <li><i>3</i><span>Click the photo to zoom in where you clicked, or press <kbd>Z</kbd> to jump to 100% on a face. Drag to move around.</span></li>
+        <li><i>4</i><span>On a burst, the strip shows every frame in the stack. Click one to jump to it.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <figure class="shot">
+      <div class="frame" data-shot="04b-zoom">
+        <img src="shots/04b-zoom.png" alt="A photo zoomed to 100% on the face in the viewer" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: viewer zoomed to 100% on a face</b><code>shots/04b-zoom.png</code></div>
+      </div>
+      <figcaption class="plain"><p>Zoomed to 100% on a face. Handy for checking eyes and focus.</p></figcaption>
+    </figure>
+
+    <h3>Keyboard shortcuts</h3>
+    <p>These work while a photo is open full size.</p>
+    <table>
+      <tr><th>Key</th><th>Action</th></tr>
+      <tr><td><kbd>←</kbd> <kbd>→</kbd></td><td>Next stack or photo</td></tr>
+      <tr><td><kbd>↑</kbd> <kbd>↓</kbd></td><td>Move through a burst stack</td></tr>
+      <tr><td><kbd>K</kbd> <kbd>M</kbd> <kbd>X</kbd></td><td>Keep / Maybe / Reject</td></tr>
+      <tr><td><kbd>H</kbd></td><td>Highlight</td></tr>
+      <tr><td><kbd>S</kbd></td><td>Move the Keep or Highlight to this frame</td></tr>
+      <tr><td><kbd>Z</kbd></td><td>Zoom to 100% on a face</td></tr>
+      <tr><td><kbd>Esc</kbd></td><td>Close</td></tr>
+    </table>
+
+    <h3>Picking a different frame from a burst</h3>
+    <p>Cull picks one frame per burst and labels it <span class="chip pick">Best of burst</span>. Want a different one? Arrow over to the frame you like and press <kbd>S</kbd>. The Keep (or Highlight) moves there and the old frame drops to Maybe.</p>
+    <div class="note"><b>About 100% zoom:</b> you're looking at the preview embedded in the RAW, not the full sensor image. It's great for checking eyes and focus, but it won't match Lightroom pixel for pixel.</div>
+  </section>
+
+  <!-- 5 -->
+  <section class="step" id="xmp">
+    <h2><span class="num">5</span>Write XMP ratings</h2>
+    <p class="lede">Happy with your calls? Time to send them over.</p>
+
+    <figure class="shot">
+      <div class="frame" data-shot="05-write-xmp">
+        <img src="shots/05-write-xmp.png" alt="The Write XMP ratings button in the top right of the header" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: full window right after clicking Write XMP ratings, so the message at the bottom shows</b><code>shots/05-write-xmp.png</code></div>
+        <span class="pin" style="left:93.9%;top:7.2%">1</span>
+        <span class="pin" style="left:62.8%;top:95.3%">2</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span>Click <b>Write XMP ratings</b>. It turns on once the analysis is done.</span></li>
+        <li><i>2</i><span>A message tells you how many files were written.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <p>Cull puts an <code>.xmp</code> file next to each photo. If one's already there, Cull adds to it and leaves your other edits alone.</p>
+
+    <div class="note"><b>Works best with RAW.</b> The XMP ratings are tested with RAW files (Nikon NEF). Lightroom Classic didn't pick them up on a JPEG gallery that had already been edited, and other JPEGs haven't been tested yet. If you cull JPEGs, check a few photos in Lightroom before you trust the whole folder.</div>
+
+    <h3>What Lightroom gets</h3>
+    <table>
+      <tr><th>Your call</th><th>Lightroom gets</th></tr>
+      <tr><td>Keep</td><td>3 stars, green</td></tr>
+      <tr><td>Maybe</td><td>2 stars, yellow</td></tr>
+      <tr><td>Reject</td><td>Rejected, red</td></tr>
+      <tr><td>Highlight</td><td>5 stars, blue</td></tr>
+    </table>
+    <p>Write XMP as many times as you want. Each time, the rating and label update to match your latest calls.</p>
+  </section>
+
+  <!-- 6 -->
+  <section class="step" id="lightroom">
+    <h2><span class="num">6</span>Bring it into Lightroom</h2>
+    <p class="lede">Cull doesn't send anything to Lightroom directly. It writes the XMP files, and Lightroom reads them when you import.</p>
+
+    <figure class="shot">
+      <div class="frame" data-shot="06-lightroom">
+        <img src="shots/06-lightroom.png" alt="Lightroom showing the imported shoot with stars and color labels" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: Lightroom grid with ratings and labels showing</b><code>shots/06-lightroom.png</code></div>
+        <span class="pin" style="left:64.5%;top:30.8%">1</span>
+        <span class="pin" style="left:40.3%;top:8.3%">2</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span>Your stars and color labels come in with the photos.</span></li>
+        <li><i>2</i><span>Filter by rating or label to jump straight to your Keeps and Highlights.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <h3>New to your catalog</h3>
+    <p>Import the shoot folder like you always do. The ratings and labels come along.</p>
+    <h3>Already in your catalog</h3>
+    <p>Select the photos or the folder, then choose <b>Metadata &gt; Read Metadata from Files</b>.</p>
+  </section>
+
+  <!-- 7 -->
+  <section class="step" id="library">
+    <h2><span class="num">7</span>Library and backups</h2>
+    <p class="lede">Every shoot you cull lands in your Library, so you can pick up where you left off.</p>
+
+    <figure class="shot">
+      <div class="frame" data-shot="07-library">
+        <img src="shots/07-library.png" alt="The Library page with shoot cards and the backup buttons" onload="this.parentNode.classList.add('has')" onerror="this.remove()">
+        <div class="ph"><b>Screenshot: Library with a few shoot cards</b><code>shots/07-library.png</code></div>
+        <span class="pin" style="left:11.3%;top:1.4%">1</span>
+        <span class="pin" style="left:92.0%;top:15.6%">2</span>
+        <span class="pin" style="left:39.5%;top:25.1%">3</span>
+        <span class="pin" style="left:28.75%;top:60.1%">4</span>
+      </div>
+      <figcaption><ol>
+        <li><i>1</i><span><b>Library</b> in the top bar gets you back here anytime.</span></li>
+        <li><i>2</i><span><b>Export backup</b> and <b>Import backup</b>.</span></li>
+        <li><i>3</i><span>Each card shows the cover, the photo count, and your Keep, Maybe, Reject and Highlight totals. Click one to reopen the shoot.</span></li>
+        <li><i>4</i><span><b>Remove</b> takes a shoot off the list. Your photos aren't touched.</span></li>
+      </ol></figcaption>
+    </figure>
+
+    <div class="note"><b>Where your info lives:</b> Cull has no server, so your Library, analysis and calls are saved in your browser on that one computer. Clearing site data, cookies or history can wipe them. A different browser, profile, incognito window or computer starts empty.</div>
+
+    <h3>Keeping it safe</h3>
+    <ul>
+      <li>When you finish a shoot, click <b>Write XMP ratings</b>.</li>
+      <li>Every so often, hit <b>Export backup</b>.</li>
+    </ul>
+
+    <h3>Switching computers</h3>
+    <ol>
+      <li>On the old computer, click <b>Export backup</b>.</li>
+      <li>Copy the <code>.json</code> file to the new one.</li>
+      <li>Open Cull there and click <b>Import backup</b>.</li>
+      <li>Click each shoot marked <b>Folder needs linked</b> and pick its folder.</li>
+    </ol>
+    <p>Backups hold names, counts, covers and your calls. Photos and folder locations stay behind.</p>
+
+    <h3>If a folder moves</h3>
+    <p>Rename or move a shoot folder and its card says <b>Folder not found</b>. Click <b>Locate folder</b> and point Cull at the new spot.</p>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a href="https://github.com/nikkerdoo/cull">Back to the README</a>
+    <a href="https://nikkerdoo.github.io/cull/">Open Cull</a>
+    <a href="https://github.com/nikkerdoo/cull/issues">Report a bug or request a feature</a>
+    <span>Made by <a href="https://nicolemarieportraits.com">Nicole Marie Portraits</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

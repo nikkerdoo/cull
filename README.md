@@ -33,9 +33,13 @@ You need **Chrome or Edge on a computer**. Safari and Firefox can't open folders
 4. Review, change any call you disagree with, then click **Write XMP ratings**.
 5. Import the folder into Lightroom. Your ratings come along.
 
+Want every screen walked through? Read the [detailed instructions](https://nikkerdoo.github.io/cull/guide.html).
+
 ## Supported files
 
 CR2, CR3, NEF, NRW, ARW, DNG, RAF, ORF, RW2, PEF, SRW, JPG and JPEG.
+
+Cull's Lightroom ratings are tested with RAW files (Nikon NEF). On a JPEG gallery that had already been edited, Lightroom Classic did not pick up the XMP ratings. Other JPEGs haven't been tested yet, so check a few photos in Lightroom before you trust a whole folder.
 
 ## What the colors mean
 
